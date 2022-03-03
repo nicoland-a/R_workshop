@@ -1,4 +1,4 @@
-# epn_R_workshop
+# R_workshop
 R workshop for economics students, covering basics of R programming.
 
 Topics cover the very basics of R programming starting with downloading R itself.
