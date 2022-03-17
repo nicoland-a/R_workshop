@@ -1,0 +1,31 @@
+---
+title: "Class 1: Basic R"
+author: "Daniel"
+#date: ' `r Sys.Date()`'
+output: 
+    html_notebook:
+      toc: true
+      toc_float: true
+---
+
+# R Basics
+Let's have a look at the RStudio IDE. You can choose the best appearance according to your own taste. 
+
+*Recommended:* Configure Git (after having downloaded it)
+
+## The Console
+
+
+## The Environment
+
+
+# R Chunks
+We'll have a more detailed explanation when we check R Markdown out. Nevertheless, I'll be using it to generate html files with text and the codes we generate in class.
+
+
+```{r}
+2+2
+
+```
+
+
