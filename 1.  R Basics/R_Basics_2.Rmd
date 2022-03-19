@@ -1,0 +1,22 @@
+---
+title: "Class 2: Basic R II"
+author: "Daniel Nicola"
+#date: ' `r Sys.Date()`'
+output: 
+    html_notebook:
+      toc: true
+      toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+### Conditionals
+
+### Loops
+
+### Functions
+
+### Apply (which one to use when)
+
+### Some utilities

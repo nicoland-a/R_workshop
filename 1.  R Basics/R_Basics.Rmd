@@ -13,6 +13,7 @@ Let's have a look at the RStudio IDE. You can choose the best appearance accordi
 
 *Recommended:* Configure Git (after having downloaded it)
 
+## R Studio IDE
 ### The Console
 You can run any code directly in the console. Just write it and press enter. Results are also shown in the console.
 
@@ -28,7 +29,7 @@ We'll have a more detailed explanation when we check R Markdown out. Nevertheles
 ```{r}
 2+2
 ```
-
+## R Operations and Data Structures
 ### Basic Operations
 - Addition
 - Substraction
@@ -68,6 +69,6 @@ Assign a value to a variable with `<-`. All variables are then shown in the envi
 
 ```
 
-
+### List
 
 
