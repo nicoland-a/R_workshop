@@ -1,0 +1,121 @@
+---
+title: "Clase 1: R Básico II"
+author: "Daniel Nicola"
+#date: ' `r Sys.Date()`'
+output: 
+    html_notebook:
+      toc: true
+      toc_float: true
+---
+
+### Condicionales
+```{r}
+#comparación de variables lógicas, numéricas, caracteres
+#Igualdad Utilizamos ==
+TRUE==TRUE
+5==4
+as.character(5*20)=="100"
+
+#No igualdad !=
+3!=4
+
+#Mayor/menor que
+5>4
+"As" > "Qwertz"
+
+#OPERADORES LÓGICOS & y | 
+cond <- 5
+cond > 2 | cond < 4
+#Al tener doble &, tan pronto como encuentre un false, la comprobación termina (código más eficiente)
+cond < 4 && cond > 2 && cond < 10
+```
+#### IF  (else) Statement
+```{r}
+cond_2 <- 20
+if(cond>cond_2) { 
+  print (cond)} else if(cond<10){
+  print("condición 1 no cumplida")
+  cond <- cond + (cond_2-cond+1) 
+  } else {
+  print("ahora sí")
+}
+```
+
+
+### Loops
+#### While Loop
+Código corre siempre y cuando se cumpla la condición. Tan pronto como la condición no se cumpla, el código se detiene.
+```{r}
+while_cond <- 1
+while(while_cond < 10){
+  while_cond <- while_cond + 1
+  print(while_cond)
+}
+```
+
+#### For Loop
+```{r}
+mi_vector <- 1:15
+#Versión 1
+for(i in mi_vector){
+  print(i)
+}
+
+#Versión 2
+for(i in 1:length(mi_vector)){
+  print(i)
+}
+
+#Loop dentro de otro
+for(i in mi_vector){
+  for (j in mi_vector) {
+    #print(i*j)
+    i*j
+  }
+}
+```
+#### Detener loops con "break"
+```{r}
+#Ejemplo con for
+for(i in mi_vector){
+  #print(i)
+  if(i>5){
+    break
+  }
+   print(i)
+}
+```
+
+
+### Funciones
+```{r}
+#Función mean()
+mean(mi_vector)
+
+#para mirar qué hace una función, argumentos, ejemplo, etc
+help(max)
+max(mi_vector, na.rm = TRUE)
+mi_vector <- c(mi_vector, NA)
+#error a propósito
+mean(mi_vector, na.rm = TRUE)
+
+#Algunas funciones básicas
+#sum()
+#mean()
+#max()
+#min()
+#sqrt()
+#sd()
+#help(cor)
+
+#Ejemplo de función cor()
+symnum(clS <- cor(longley, method = "spearman"))
+symnum(clK <- cor(longley, method = "kendall"))
+```
+
+
+### Escribe tu propia función
+*TIP: Si tienes que escribir el mismo código, más de 3 veces en un script, ESCRIBE UNA FUNCIÓN.*
+
+### Las funciones "Apply"
+
