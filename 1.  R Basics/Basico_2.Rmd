@@ -2,9 +2,14 @@
 title: 'Clase 1: R Básico II'
 author: "Daniel Nicola"
 output:
+  html_document:
+    toc: yes
+    df_print: paged
   html_notebook:
     toc: yes
     toc_float: yes
+editor_options:
+  chunk_output_type: console
 ---
 
 ### Condicionales
@@ -112,7 +117,7 @@ mean(mi_vector, na.rm = TRUE)
 #min()
 #sqrt()
 #sd()
-#(cor)
+#cor()
 
 #Ejemplo de función cor() con diferentes argumentos
 symnum(clS <- cor(longley, method = "spearman"))
@@ -139,12 +144,45 @@ duplica_2 <- function(a){
 }
 duplica_2(5)
 
+#Al tener una funcion en la cual el codigo es corto pueden tener el codigo a continuacion
+#del input sin necesidad de usar las {} (IMPORTANTE Utilizarlo sin asignacion)
+duplica_3 <- function(a) a*2   
+duplica_3(3)
+
+
+#Ejemplo : Funcion con varios inputs
+func_varios <- function(a, df, b){
+  df <- df[a, b]
+  df
+}
+output_varios <- func_varios(1, mtcars, 4)
+
+#Funcion con varias salidas como lista
+func_varios_2 <- function(a, b, c){
+  #retorna los valores del input como lista
+  lista_output <- list(a, b, c)
+}
+lista_1 <- func_varios_2(mtcars, "Texto", c(1, 2, rep(1,5)))
+lista_1[[3]]
+
+#Ejemplo funcion recursiva
+func_factorial <- function(n){
+  if(n==0){
+    var_output <- 1
+  }else{
+    var_output <- n * func_factorial(n-1)
+  }
+  
+  var_output
+}
+func_factorial(5)
+func_factorial(2)
 ```
 
 ### R Packages
 Las librerías de R son un conjunto de código, funciones, datos, pruebas y documentación. La librería más común es `base`, en ella están las funciones básicas como `mean()` y `sum()`. Una librería es creada para poder compartir código con otros. 
 
-Para instalar una librería o "package" necesiatas la función `install.packages()` con el nombre de la librería entre comillas. Una vez que tengas instalada la librería puedes cargarla con `library()` o `require()`. Estas dos funciones son muy similares pero `require()`, al no encontrar una librería instalada regresa el valor `FALSE`. `library()`da un error.
+Para instalar una librería o "package" necesitas la función `install.packages()` con el nombre de la librería entre comillas. Una vez que tengas instalada la librería puedes cargarla con `library()` o `require()`. Estas dos funciones son muy similares pero `require()`, al no encontrar una librería instalada regresa el valor `FALSE`. `library()`da un error.
 
 #### PACMAN
 Para facilitar el trabajo de instalar y cargar librerías, puedes utilizar la librería `pacman`. Este código puede ser copiado y pegado al inicio de tus scripts de `r`.
@@ -157,8 +195,60 @@ if (!require(pacman)) {
 #carga los paquetes que quieras agregándolos como argumentos de la función p_load
 pacman::p_load(tidyr, dplyr, purrr, plm, openxlsx, readxl, ggplot2, plotly, shiny)
 
+#Libreria no instalada
+library(mekko)
+require(mekko)
+#solucion para instalar y cargar una libreria con PACMAN
+pacman::p_load(mekko)  #equivale a install.packages("mekko") y library(mekko)
+
+#Codigo equivalente a una linea de pacman
+library(tidyr)
+library(dplyr)
+library(purrr)
+#etc
+
+#ejemplo gapminder
+#head(gapminder)
+
+library(gapminder)
+head(gapminder)
 ```
 
 
-### Las funciones "Apply"
+### La familia "Apply"
+#### `lapply`
+Aplica una funcion a un vector elemento a elemento. 
+
+Output: Lista.
+```{r}
+vector_texto <- c("HOLA", "HI", "HALLO")
+lapply(vector_texto, tolower)
+
+vector_num <- 1:3
+lapply(vector_num, function(x) x+1)
+```
+
+#### `sapply`
+Version "simplificada" de `lapply`.
+
+Output: Siempre que sea posible es un vector
+
+```{r}
+vec_con_nombres <- sapply(vector_texto, tolower)
+
+#sin nombres
+vec_sin_nombres <- sapply(vector_texto, tolower, USE.NAMES = FALSE)
+
+#funcion propia
+sapply(vector_num, function(x) x+1)
+```
+
+#### De interes: `vapply` y versiones de computo en paralelo (Ej: `parLapply`)
+
+
+
+
+
+
+
 

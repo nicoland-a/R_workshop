@@ -3,6 +3,9 @@ title: "Trabajo en Clase 1"
 output: html_document
 ---
 
+ENVIAR AL CORREO (archivo .Rmd y/o .html).
+
+
 #### Carga las siguientes librerías: ggplot2, tidyr, plm.
 ```{r}
 

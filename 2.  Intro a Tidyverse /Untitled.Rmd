@@ -1,0 +1,9 @@
+---
+title: 'Clase 2: Intro al Tidyverse'
+author: "Daniel Nicola"
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+---
+El [tidyverse](tidyverse.org) es una coleccion de librerias que permiten manipular datos, crear visualizaciones y en general realizar analisis de datos.
