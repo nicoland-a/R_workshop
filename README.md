@@ -1,17 +1,14 @@
 # R_workshop
-R workshop for economics students, covering basics of R programming.
+Un seminario de R cubriendo temas básicos de R, packages para el manejo de datos y temas básicos de econometría.
+Los temas cubiertos en el curso empiezan desde la descarga e instalación de R y RStudio.
 
-Topics cover the very basics of R programming starting with downloading R itself.
-
-## Topics covered
-- [RStudio install (windows)](https://www.youtube.com/watch?v=w0-HZpBQGUU&t=14s)
-- [RStudio install (mac)](https://www.youtube.com/watch?v=6qfevttc1DE&t=7s)
-- Quick look around RStudio IDE
-- Data Structures
-- Functions and Packages
-- Introduction to the Tidyverse
-- (Brief) Introductions to RMarkdown and Shiny
-- Econometrics (linear models, non linear models, panel data, logit - probit)
-- Time series
-
-*Audience is spanish speaking, therefore some files might be written in spanish*
+## Temas:
+- [RStudio instalación (windows)](https://www.youtube.com/watch?v=w0-HZpBQGUU&t=14s)
+- [RStudio instalación (mac)](https://www.youtube.com/watch?v=6qfevttc1DE&t=7s)
+- Un vistazo al IDE de RStudio
+- Operaciones básicas y Estructuras de Datos
+- Funciones y Packages (Librerías)
+- Introducción al Tidyverse
+- (Breve) Introducción a RMarkdown y Shiny
+- Econometría (modelos lineares, no lineares, panel data, logit - probit)
+- Series Temporales
