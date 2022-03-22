@@ -141,6 +141,24 @@ duplica_2(5)
 
 ```
 
+### R Packages
+Las librerías de R son un conjunto de código, funciones, datos, pruebas y documentación. La librería más común es `base`, en ella están las funciones básicas como `mean()` y `sum()`. Una librería es creada para poder compartir código con otros. 
+
+Para instalar una librería o "package" necesiatas la función `install.packages()` con el nombre de la librería entre comillas. Una vez que tengas instalada la librería puedes cargarla con `library()` o `require()`. Estas dos funciones son muy similares pero `require()`, al no encontrar una librería instalada regresa el valor `FALSE`. `library()`da un error.
+
+#### PACMAN
+Para facilitar el trabajo de instalar y cargar librerías, puedes utilizar la librería `pacman`. Este código puede ser copiado y pegado al inicio de tus scripts de `r`.
+```{r}
+if (!require(pacman)) {
+  #Revisa si tienes pacman ya instalado, si no lo tienes lo instala
+  install.packages("pacman")
+  require(pacman)
+}
+#carga los paquetes que quieras agregándolos como argumentos de la función p_load
+pacman::p_load(tidyr, dplyr, purrr, plm, openxlsx, readxl, ggplot2, plotly, shiny)
+
+```
+
 
 ### Las funciones "Apply"
 
