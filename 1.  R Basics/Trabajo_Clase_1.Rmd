@@ -1,0 +1,20 @@
+---
+title: "Trabajo en Clase 1"
+output: html_document
+---
+
+#### Carga las siguientes librerías: ggplot2, tidyr, plm.
+```{r}
+
+```
+
+#### Escribe una función llamada "Power_func" que tome como input una variable a y una variable b. El output debe ser la variable a elevada a b.
+```{r}
+
+```
+
+#### Utiliza `lapply` y `sapply` en un vector numérico que tenga los números del 1 al 10 para que cada elemento sea duplicado. Qué diferencia hay entre los resultados al aplicar `lapply` y `sapply`?
+```{r}
+
+```
+
