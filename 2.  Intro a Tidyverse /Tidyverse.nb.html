@@ -2915,12 +2915,125 @@ div.tocify {
 
 
 <!-- rnb-text-begin -->
-<p>El <a href="tidyverse.org">tidyverse</a> es una coleccion de
-librerias que permiten manipular datos, crear visualizaciones y en
+<p>El <a href="https://www.tidyverse.org">tidyverse</a> es una coleccion
+de librerias que permiten manipular datos, crear visualizaciones y en
 general realizar analisis de datos.</p>
+<div id="el-conector-o-desde-version-4.1-permite-escribir-codigo-tomando-la-parte-anterior-como-primer-input." class="section level3">
+<h3>El conector <code>%&gt;%</code> o <code>|&gt;</code> (desde version
+4.1) permite escribir codigo tomando la parte anterior como primer
+input.</h3>
+<p>Recordatorio: el conector <code>%&gt;%</code> viene con el paquete
+<code>magrittr</code></p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2Jhc2UgclxuaXJpc19kZiA8LSBpcmlzWzE6MTAsIF0gXG5pcmlzX2RmIDwtIGlyaXNbLCAyXVxuXG4jbWFzIGFkZWxhbnRlIHZhbW9zIGEgbWlyYXIgZmlsdGVyKCkgeSBzZWxlY3QoKVxubGlicmFyeShkcGx5cilcbmlyaXNfZGZfbmV3IDwtIGlyaXNcbmlyaXNfZGZfbmV3IDwtIGZpbHRlcihpcmlzX2RmX25ldywgU3BlY2llcz09XCJzZXRvc2FcIilcbmlyaXNfZGZfbmV3IDwtIHNlbGVjdChpcmlzX2RmX25ldywgU3BlY2llcylcblxuI1wiTWFnaWFcIiBkZWwgY29uZWN0b3IgJT4lXG5pcmlzX2RmX25ld18yIDwtIGlyaXMgJT4lXG4gIGZpbHRlcihTcGVjaWVzPT1cInNldG9zYVwiKSAlPiVcbiAgc2VsZWN0KFNwZWNpZXMpXG5cbmlkZW50aWNhbChpcmlzX2RmX25ldywgaXJpc19kZl9uZXdfMilcblxuYGBgIn0= -->
+<pre class="r"><code>#base r
+iris_df &lt;- iris[1:10, ] 
+iris_df &lt;- iris[, 2]
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAnQ2xhc2UgMjogSW50cm8gYWwgVGlkeXZlcnNlJwphdXRob3I6ICJEYW5pZWwgTmljb2xhIgpvdXRwdXQ6CiAgaHRtbF9ub3RlYm9vazoKICAgIHRvYzogeWVzCiAgICB0b2NfZmxvYXQ6IHllcwotLS0KRWwgW3RpZHl2ZXJzZV0odGlkeXZlcnNlLm9yZykgZXMgdW5hIGNvbGVjY2lvbiBkZSBsaWJyZXJpYXMgcXVlIHBlcm1pdGVuIG1hbmlwdWxhciBkYXRvcywgY3JlYXIgdmlzdWFsaXphY2lvbmVzIHkgZW4gZ2VuZXJhbCByZWFsaXphciBhbmFsaXNpcyBkZSBkYXRvcy4=</div>
+#mas adelante vamos a mirar filter() y select()
+library(dplyr)
+iris_df_new &lt;- iris
+iris_df_new &lt;- filter(iris_df_new, Species==&quot;setosa&quot;)
+iris_df_new &lt;- select(iris_df_new, Species)
+
+#&quot;Magia&quot; del conector %&gt;%
+iris_df_new_2 &lt;- iris %&gt;%
+  filter(Species==&quot;setosa&quot;) %&gt;%
+  select(Species)
+
+identical(iris_df_new, iris_df_new_2)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Al cargar el <code>tidyverse</code> se cargan todos los paquetes
+(core) incluidos en el.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5gYGAifQ== -->
+<pre class="r"><code>library(tidyverse)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="tidyr" class="section level3">
+<h3>Tidyr</h3>
+<p>En este curso cubriremos <code>pivot_longer</code>,
+<code>pivot_wider</code>, <code>separate</code>, <code>unite</code>,
+<code>drop_na</code>.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0VqZW1wbG8gY29uIGVsIGRmIGlyaXNcblxuI3Bpdm90X2xvbmdlciBjb24gc2VwYWwueHh4eFxuaXJpcyAlPiVcbiAgcGl2b3RfbG9uZ2VyKGNvbHMgPSBjKFNlcGFsLkxlbmd0aCwgU2VwYWwuV2lkdGgpKVxuXG4jY29uIGZ1bmNpb24gc3RhcnRzX3dpdGhcbmlyaXMgJT4lXG4gICNtdXRhdGUgdmVyZW1vcyBlbiBsYSBzaWd1aWVudGUgc2VjY2lvblxuICBtdXRhdGUoSUQ9cm93X251bWJlcigpKSAlPiVcbiAgcGl2b3RfbG9uZ2VyKHN0YXJ0c193aXRoKGMoXCJTZXBcIiwgXCJQZXRcIikpLFxuICAgICAgICAgICAgICAgbmFtZXNfdG8gPSBcIk1lYXN1cmVcIikgJT4lXG4gIHNlcGFyYXRlKE1lYXN1cmUsIGludG8gPSBjKFwiRmxvd2VyX1BhcnRcIiwgXCJXaWR0aF9vcl9MZW5ndGhcIikpICU+JVxuICB1bml0ZShNZWFzdXJlLCBGbG93ZXJfUGFydCwgV2lkdGhfb3JfTGVuZ3RoLCBzZXAgPSBcIi5cIikgJT4lXG4gIHBpdm90X3dpZGVyKG5hbWVzX2Zyb20gPSBNZWFzdXJlKVxuXG5gYGAifQ== -->
+<pre class="r"><code>#Ejemplo con el df iris
+
+#pivot_longer con sepal.xxxx
+iris %&gt;%
+  pivot_longer(cols = c(Sepal.Length, Sepal.Width))
+
+#con funcion starts_with
+iris %&gt;%
+  #mutate veremos en la siguiente seccion
+  mutate(ID=row_number()) %&gt;%
+  pivot_longer(starts_with(c(&quot;Sep&quot;, &quot;Pet&quot;)),
+               names_to = &quot;Measure&quot;) %&gt;%
+  separate(Measure, into = c(&quot;Flower_Part&quot;, &quot;Width_or_Length&quot;)) %&gt;%
+  unite(Measure, Flower_Part, Width_or_Length, sep = &quot;.&quot;) %&gt;%
+  pivot_wider(names_from = Measure)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1NlIGRlc2hhY2UgZGUgdG9kYXMgbGFzIGZpbGFzIHF1ZSB0aWVuZW4gTkFzXG5kZiA8LSB0aWJibGUoeCA9IGMoMSwgMiwgTkEpLCB5ID0gYyhcImFcIiwgTkEsIFwiYlwiKSlcbmRmICU+JSBkcm9wX25hKClcbmBgYCJ9 -->
+<pre class="r"><code>#Se deshace de todas las filas que tienen NAs
+df &lt;- tibble(x = c(1, 2, NA), y = c(&quot;a&quot;, NA, &quot;b&quot;))
+df %&gt;% drop_na()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="dplyr" class="section level3">
+<h3>Dplyr</h3>
+<p>“Verbos” que estan en el paquete dplyr: - <code>mutate()</code>: crea
+nuevas variables - <code>select()</code>: selecciona variables -
+<code>filter()</code>: filtra filas - <code>arrange()</code>: ordena los
+datos - <code>group_by()</code>: agrupa filas -
+<code>summarise()</code>: reducir valores en un valor resumen</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0VqZW1wbG9zIGNvbiBkZiBnYXBtaW5kZXJfdW5maWx0ZXJlZFxuZ2FwbWluZGVyX2VqZW1wbG8gPC0gZ2FwbWluZGVyX3VuZmlsdGVyZWQgJT4lXG4gIG11dGF0ZShnZHBQZXJjYXBfcm91bmQgPSByb3VuZChnZHBQZXJjYXApLFxuICAgICAgICAgbGlmZUV4cF9vdmVyXzUwID0gaWZlbHNlKGxpZmVFeHA+NTAsIFRSVUUsIEZBTFNFKSkgJT4lXG4gIGZpbHRlcihjb250aW5lbnQgPT0gXCJBZnJpY2FcIikgJT4lIywgY291bnRyeT09XCJOaWdlcmlhXCIsIHllYXI+MTk4MClcbiAgYXJyYW5nZSh5ZWFyLCBkZXNjKGNvdW50cnkpKSAlPiVcbiAgZ3JvdXBfYnkoY29udGluZW50LCBsaWZlRXhwX292ZXJfNTApICU+JVxuICBzdW1tYXJpc2UobWVhbl9wb3A9bWVhbihwb3ApKVxuXG5gYGAifQ== -->
+<pre class="r"><code>#Ejemplos con df gapminder_unfiltered
+gapminder_ejemplo &lt;- gapminder_unfiltered %&gt;%
+  mutate(gdpPercap_round = round(gdpPercap),
+         lifeExp_over_50 = ifelse(lifeExp&gt;50, TRUE, FALSE)) %&gt;%
+  filter(continent == &quot;Africa&quot;) %&gt;%#, country==&quot;Nigeria&quot;, year&gt;1980)
+  arrange(year, desc(country)) %&gt;%
+  group_by(continent, lifeExp_over_50) %&gt;%
+  summarise(mean_pop=mean(pop))
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCBoYXMgZ3JvdXBlZCBvdXRwdXQgYnkgJ2NvbnRpbmVudCcuIFlvdSBjYW4gb3ZlcnJpZGUgdXNpbmcgdGhlIGAuZ3JvdXBzYCBhcmd1bWVudC5cbiJ9 -->
+<pre><code>`summarise()` has grouped output by &#39;continent&#39;. You can override using the `.groups` argument.</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0VqZW1wbG8gZGUgRmlsdGVyXG4jZmlsdHJhciB2YWxvcmVzIHF1ZSBubyBzb24gTkEgLT4gdXRpbGl6YXIgIShuZWdhdGl2bykgY29tYmluYWRvIGNvbiBmdW5jaW9uIGlzLm5hKCkgXG5kZiAlPiVcbiAgZmlsdGVyKCFpcy5uYSh4KSlcblxuYGBgIn0= -->
+<pre class="r"><code>#Ejemplo de Filter
+#filtrar valores que no son NA -&gt; utilizar !(negativo) combinado con funcion is.na() 
+df %&gt;%
+  filter(!is.na(x))
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAnQ2xhc2UgMjogSW50cm8gYWwgVGlkeXZlcnNlJwphdXRob3I6ICJEYW5pZWwgTmljb2xhIgpvdXRwdXQ6CiAgaHRtbF9ub3RlYm9vazoKICAgIHRvYzogeWVzCiAgICB0b2NfZmxvYXQ6IHllcwotLS0KRWwgW3RpZHl2ZXJzZV0oaHR0cHM6Ly93d3cudGlkeXZlcnNlLm9yZykgZXMgdW5hIGNvbGVjY2lvbiBkZSBsaWJyZXJpYXMgcXVlIHBlcm1pdGVuIG1hbmlwdWxhciBkYXRvcywgY3JlYXIgdmlzdWFsaXphY2lvbmVzIHkgZW4gZ2VuZXJhbCByZWFsaXphciBhbmFsaXNpcyBkZSBkYXRvcy4KCgojIyMgRWwgY29uZWN0b3IgYCU+JWAgbyBgfD5gIChkZXNkZSB2ZXJzaW9uIDQuMSkgcGVybWl0ZSBlc2NyaWJpciBjb2RpZ28gdG9tYW5kbyBsYSBwYXJ0ZSBhbnRlcmlvciBjb21vIHByaW1lciBpbnB1dC4KClJlY29yZGF0b3JpbzogZWwgY29uZWN0b3IgYCU+JWAgdmllbmUgY29uIGVsIHBhcXVldGUgYG1hZ3JpdHRyYApgYGB7cn0KI2Jhc2UgcgppcmlzX2RmIDwtIGlyaXNbMToxMCwgXSAKaXJpc19kZiA8LSBpcmlzWywgMl0KCiNtYXMgYWRlbGFudGUgdmFtb3MgYSBtaXJhciBmaWx0ZXIoKSB5IHNlbGVjdCgpCmxpYnJhcnkoZHBseXIpCmlyaXNfZGZfbmV3IDwtIGlyaXMKaXJpc19kZl9uZXcgPC0gZmlsdGVyKGlyaXNfZGZfbmV3LCBTcGVjaWVzPT0ic2V0b3NhIikKaXJpc19kZl9uZXcgPC0gc2VsZWN0KGlyaXNfZGZfbmV3LCBTcGVjaWVzKQoKIyJNYWdpYSIgZGVsIGNvbmVjdG9yICU+JQppcmlzX2RmX25ld18yIDwtIGlyaXMgJT4lCiAgZmlsdGVyKFNwZWNpZXM9PSJzZXRvc2EiKSAlPiUKICBzZWxlY3QoU3BlY2llcykKCmlkZW50aWNhbChpcmlzX2RmX25ldywgaXJpc19kZl9uZXdfMikKCmBgYApBbCBjYXJnYXIgZWwgYHRpZHl2ZXJzZWAgc2UgY2FyZ2FuIHRvZG9zIGxvcyBwYXF1ZXRlcyAoY29yZSkgaW5jbHVpZG9zIGVuIGVsLgpgYGB7cn0KbGlicmFyeSh0aWR5dmVyc2UpCmBgYAoKCiMjIyBUaWR5cgpFbiBlc3RlIGN1cnNvIGN1YnJpcmVtb3MgYHBpdm90X2xvbmdlcmAsIGBwaXZvdF93aWRlcmAsIGBzZXBhcmF0ZWAsIGB1bml0ZWAsIGBkcm9wX25hYC4KYGBge3J9CiNFamVtcGxvIGNvbiBlbCBkZiBpcmlzCgojcGl2b3RfbG9uZ2VyIGNvbiBzZXBhbC54eHh4CmlyaXMgJT4lCiAgcGl2b3RfbG9uZ2VyKGNvbHMgPSBjKFNlcGFsLkxlbmd0aCwgU2VwYWwuV2lkdGgpKQoKI2NvbiBmdW5jaW9uIHN0YXJ0c193aXRoCmlyaXMgJT4lCiAgI211dGF0ZSB2ZXJlbW9zIGVuIGxhIHNpZ3VpZW50ZSBzZWNjaW9uCiAgbXV0YXRlKElEPXJvd19udW1iZXIoKSkgJT4lCiAgcGl2b3RfbG9uZ2VyKHN0YXJ0c193aXRoKGMoIlNlcCIsICJQZXQiKSksCiAgICAgICAgICAgICAgIG5hbWVzX3RvID0gIk1lYXN1cmUiKSAlPiUKICBzZXBhcmF0ZShNZWFzdXJlLCBpbnRvID0gYygiRmxvd2VyX1BhcnQiLCAiV2lkdGhfb3JfTGVuZ3RoIikpICU+JQogIHVuaXRlKE1lYXN1cmUsIEZsb3dlcl9QYXJ0LCBXaWR0aF9vcl9MZW5ndGgsIHNlcCA9ICIuIikgJT4lCiAgcGl2b3Rfd2lkZXIobmFtZXNfZnJvbSA9IE1lYXN1cmUpCgpgYGAKCmBgYHtyfQojU2UgZGVzaGFjZSBkZSB0b2RhcyBsYXMgZmlsYXMgcXVlIHRpZW5lbiBOQXMKZGYgPC0gdGliYmxlKHggPSBjKDEsIDIsIE5BKSwgeSA9IGMoImEiLCBOQSwgImIiKSkKZGYgJT4lIGRyb3BfbmEoKQpgYGAKCgojIyMgRHBseXIKIlZlcmJvcyIgcXVlIGVzdGFuIGVuIGVsIHBhcXVldGUgZHBseXI6Ci0gYG11dGF0ZSgpYDogY3JlYSBudWV2YXMgdmFyaWFibGVzCi0gYHNlbGVjdCgpYDogc2VsZWNjaW9uYSB2YXJpYWJsZXMKLSBgZmlsdGVyKClgOiBmaWx0cmEgZmlsYXMKLSBgYXJyYW5nZSgpYDogb3JkZW5hIGxvcyBkYXRvcwotIGBncm91cF9ieSgpYDogYWdydXBhIGZpbGFzCi0gYHN1bW1hcmlzZSgpYDogcmVkdWNpciB2YWxvcmVzIGVuIHVuIHZhbG9yIHJlc3VtZW4KYGBge3J9CiNFamVtcGxvcyBjb24gZGYgZ2FwbWluZGVyX3VuZmlsdGVyZWQKZ2FwbWluZGVyX2VqZW1wbG8gPC0gZ2FwbWluZGVyX3VuZmlsdGVyZWQgJT4lCiAgbXV0YXRlKGdkcFBlcmNhcF9yb3VuZCA9IHJvdW5kKGdkcFBlcmNhcCksCiAgICAgICAgIGxpZmVFeHBfb3Zlcl81MCA9IGlmZWxzZShsaWZlRXhwPjUwLCBUUlVFLCBGQUxTRSkpICU+JQogIGZpbHRlcihjb250aW5lbnQgPT0gIkFmcmljYSIpICU+JSMsIGNvdW50cnk9PSJOaWdlcmlhIiwgeWVhcj4xOTgwKQogIGFycmFuZ2UoeWVhciwgZGVzYyhjb3VudHJ5KSkgJT4lCiAgZ3JvdXBfYnkobGlmZUV4cF9vdmVyXzUwKSAlPiUKICBtdXRhdGUodG90YWxfcG9wPXN1bShwb3ApKSAlPiUKICBtdXRhdGUocGVyY19wb3BfRl9UPXBvcC90b3RhbF9wb3ApICU+JQogIHN1bW1hcmlzZShwb3BfbWVhbl9ncm91cD1tZWFuKHBvcCkpCgojZWplbXBsbyBwYXJhIHNlbGVjdApnYXBtaW5kZXJfc2VsIDwtIGdhcG1pbmRlcl91bmZpbHRlcmVkICU+JQogIHNlbGVjdChjb3VudHJ5LCBjb250aW5lbnQpCmdhcG1pbmRfc2VsZWN0X21pbnVzIDwtIGdhcG1pbmRlcl91bmZpbHRlcmVkICU+JQogIHNlbGVjdCgtY291bnRyeSwgLWNvbnRpbmVudCkKYGBgCgoKYGBge3J9CiNFamVtcGxvIGRlIEZpbHRlcgojZmlsdHJhciB2YWxvcmVzIHF1ZSBubyBzb24gTkEgLT4gdXRpbGl6YXIgIShuZWdhdGl2bykgY29tYmluYWRvIGNvbiBmdW5jaW9uIGlzLm5hKCkgCmRmICU+JQogIGZpbHRlcighaXMubmEoeCkpCgpgYGAKCg==</div>
 
 
 </div>
@@ -2969,7 +3082,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("Untitled.Rmd");
+  window.initializeSourceEmbed("Tidyverse.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

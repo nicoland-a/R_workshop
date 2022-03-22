@@ -7,17 +7,22 @@ ENVIAR AL CORREO (archivo .Rmd y/o .html).
 
 
 #### Carga las siguientes librerías: ggplot2, tidyr, plm.
-```{r}
-
+```{r, include=FALSE}
+pacman::p_load(ggplot2, tidyr, plm)
 ```
 
 #### Escribe una función llamada "Power_func" que tome como input una variable a y una variable b. El output debe ser la variable a elevada a b.
-```{r}
+```{r, include=FALSE}
+Power_func <- function(a, b){
+  a^b
+}
 
 ```
 
 #### Utiliza `lapply` y `sapply` en un vector numérico que tenga los números del 1 al 10 para que cada elemento sea duplicado. Qué diferencia hay entre los resultados al aplicar `lapply` y `sapply`?
-```{r}
-
+```{r, include=FALSE}
+vec <- 1:10
+lapply(vec, function(x) x*2)
+sapply(vec, function(x) x*2)
 ```
 

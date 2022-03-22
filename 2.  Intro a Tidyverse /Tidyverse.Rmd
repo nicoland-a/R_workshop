@@ -1,0 +1,103 @@
+---
+title: 'Clase 2: Intro al Tidyverse'
+author: "Daniel Nicola"
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+---
+El [tidyverse](https://www.tidyverse.org) es una coleccion de librerias que permiten manipular datos, crear visualizaciones y en general realizar analisis de datos.
+
+
+### El conector `%>%` o `|>` (desde version 4.1) permite escribir codigo tomando la parte anterior como primer input.
+
+Recordatorio: el conector `%>%` viene con el paquete `magrittr`
+```{r}
+#base r
+iris_df <- iris[1:10, ] 
+iris_df <- iris[, 2]
+
+#mas adelante vamos a mirar filter() y select()
+library(dplyr)
+iris_df_new <- iris
+iris_df_new <- filter(iris_df_new, Species=="setosa")
+iris_df_new <- select(iris_df_new, Species)
+
+#"Magia" del conector %>%
+iris_df_new_2 <- iris %>%
+  filter(Species=="setosa") %>%
+  select(Species)
+
+identical(iris_df_new, iris_df_new_2)
+
+```
+Al cargar el `tidyverse` se cargan todos los paquetes (core) incluidos en el.
+```{r}
+library(tidyverse)
+```
+
+
+### Tidyr
+En este curso cubriremos `pivot_longer`, `pivot_wider`, `separate`, `unite`, `drop_na`.
+```{r}
+#Ejemplo con el df iris
+
+#pivot_longer con sepal.xxxx
+iris %>%
+  pivot_longer(cols = c(Sepal.Length, Sepal.Width))
+
+#con funcion starts_with
+iris %>%
+  #mutate veremos en la siguiente seccion
+  mutate(ID=row_number()) %>%
+  pivot_longer(starts_with(c("Sep", "Pet")),
+               names_to = "Measure") %>%
+  separate(Measure, into = c("Flower_Part", "Width_or_Length")) %>%
+  unite(Measure, Flower_Part, Width_or_Length, sep = ".") %>%
+  pivot_wider(names_from = Measure)
+
+```
+
+```{r}
+#Se deshace de todas las filas que tienen NAs
+df <- tibble(x = c(1, 2, NA), y = c("a", NA, "b"))
+df %>% drop_na()
+```
+
+
+### Dplyr
+"Verbos" que estan en el paquete dplyr:
+- `mutate()`: crea nuevas variables
+- `select()`: selecciona variables
+- `filter()`: filtra filas
+- `arrange()`: ordena los datos
+- `group_by()`: agrupa filas
+- `summarise()`: reducir valores en un valor resumen
+```{r}
+#Ejemplos con df gapminder_unfiltered
+gapminder_ejemplo <- gapminder_unfiltered %>%
+  mutate(gdpPercap_round = round(gdpPercap),
+         lifeExp_over_50 = ifelse(lifeExp>50, TRUE, FALSE)) %>%
+  filter(continent == "Africa") %>%#, country=="Nigeria", year>1980)
+  arrange(year, desc(country)) %>%
+  group_by(lifeExp_over_50) %>%
+  mutate(total_pop=sum(pop)) %>%
+  mutate(perc_pop_F_T=pop/total_pop) %>%
+  summarise(pop_mean_group=mean(pop))
+
+#ejemplo para select
+gapminder_sel <- gapminder_unfiltered %>%
+  select(country, continent)
+gapmind_select_minus <- gapminder_unfiltered %>%
+  select(-country, -continent)
+```
+
+
+```{r}
+#Ejemplo de Filter
+#filtrar valores que no son NA -> utilizar !(negativo) combinado con funcion is.na() 
+df %>%
+  filter(!is.na(x))
+
+```
+

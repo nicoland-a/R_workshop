@@ -2,14 +2,11 @@
 title: 'Clase 1: R Básico II'
 author: "Daniel Nicola"
 output:
-  html_document:
-    toc: yes
-    df_print: paged
   html_notebook:
     toc: yes
     toc_float: yes
-editor_options:
-  chunk_output_type: console
+editor_options: 
+  chunk_output_type: inline
 ---
 
 ### Condicionales
