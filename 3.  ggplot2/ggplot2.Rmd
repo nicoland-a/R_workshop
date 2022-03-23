@@ -1,0 +1,171 @@
+---
+title: 'Clase 3: ggplot2 y visualizaciones de Datos'
+author: "Daniel Nicola"
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+---
+
+El [tidyverse](https://www.tidyverse.org) contiene tambien el paquete `ggplot2` que es una parte esencial para crear visualizaciones y plots. `ggplot2` utiliza "layers" o capas para generar plots. Entre ellas estan: data, aesthetics, geometries, themes, statistics,...
+
+### Un primer plot
+```{r}
+library(ggplot2)
+#utilizando el dataframe mtcars y geom_point()
+ggplot(mtcars, aes(cyl, mpg)) +
+  geom_point()
+```
+
+
+### Layers
+```{r}
+#utilizando el dataframe mtcars y geom_point()
+ggplot(
+  #capa data
+  mtcars, 
+  #capa aesthetics
+  aes(cyl, mpg, color = am)) +
+  #geometria
+  geom_point()
+```
+
+```{r}
+#color, forma (shape)
+ggplot(mtcars, 
+  aes(cyl, mpg, color = am)) +
+  geom_point(shape = mtcars$carb, size = mtcars$gear)
+```
+
+### Ejemplo con Gapminder df
+```{r}
+library(gapminder)
+library(magrittr)
+#El plot se puede asignar a una variable y utilizar el pipe connector %>%
+plot_gapminder <- gapminder %>%
+  mutate(color_cont = case_when(
+    continent=="Africa" ~ "red",
+    continent=="Americas" ~ "yellow",
+    continent== "Asia" ~ "blue",
+    continent== "Europe" ~ "black",
+    continent== "Oceania" ~ "white"
+  )) %>%
+  ggplot(aes(year, lifeExp, color = color_cont, size = gdpPercap)) +
+  geom_point() + 
+  labs(title = "Grafico Ejemplo Gapminder") +
+  xlab("Año") +
+  ylab("Esperanza de Vida")
+
+```
+
+### Personalizar Colores
+```{r}
+#El plot se puede asignar a una variable y utilizar el pipe connector %>%
+Cont_Et <- levels(as.factor(gapminder$continent))  #vector con etiquetas
+Cont_Val <- c("#0E11D8", "#A1A1B2", "#A2B2A1", "#B73F55", "#262626")
+Cont_Values_Text <- c("yellow", "blue", "red", "black", "green")
+plot_gapminder_2 <- gapminder %>%
+  ggplot(aes(log(gdpPercap), lifeExp, color = continent)) +#, size = pop)) +
+  geom_point(alpha = 0.3) + 
+  labs(title = "Grafico Ejemplo Gapminder") +
+  xlab("log GDP per Capita") +
+  ylab("Esperanza de Vida") +
+  #scale_color_brewer(palette = 8)
+  scale_color_manual(values = Cont_Values_Text,
+                     labels = Cont_Et)
+
+```
+
+### Varias geometrias 
+```{r}
+dual_geom <- ggplot(mtcars, 
+  aes(cyl, mpg, color = am)) +
+  geom_point(shape = mtcars$carb, size = mtcars$gear) +
+  geom_smooth(method = 'loess') +
+  geom_abline(slope = 0, intercept = 25)
+dual_geom
+```
+
+### Ejemplos con otras `geom_xxx`
+```{r}
+#Histograma
+histog_plot <- gapminder %>%
+  ggplot(aes(lifeExp)) +
+  geom_histogram(binwidth = 10, fill = "red")
+
+#PLot de Linea
+plot_gapminder_line <- gapminder %>%
+  ggplot(aes(log(gdpPercap), lifeExp)) +
+  geom_line()
+
+#Box plot
+box_plot <- iris %>%
+  ggplot(aes(Species, Sepal.Length)) +
+  geom_boxplot()
+  
+#Violin plot
+violin_plot <- iris %>%
+  ggplot(aes(Species, Sepal.Length)) +
+  geom_violin()
+
+#bar plot
+bar_plot <- mtcars %>%
+  ggplot(aes(cyl, fill = am)) +
+  geom_bar()
+```
+
+
+### Themes
+```{r}
+plot_gapminder_3 <- plot_gapminder +
+  theme_void()+    ###Varias opciones: ej: _bw, _classic
+  theme(legend.position = "none",
+        axis.title.x = element_blank(),
+        axis.ticks = element_blank()) 
+```
+
+### Facets
+```{r}
+facet_plot <- gapminder |>
+  ggplot(aes(pop, gdpPercap)) +
+  geom_point() +
+  #añadir facetlayer 
+  facet_grid(gapminder$continent)
+  #facet_wrap(gapminder$continent)
+```
+
+### Guardar plots
+```{r}
+#Funcion para guardar plots como archivos de imagen
+#ggplot2::ggsave("filename")
+```
+
+
+### Plotly
+Libreria que permite crear visualizaciones como .html. Puedes convertir un ggplot a plotly con una funcion : `plotly::ggplotly()` pasando como argumento el objeto creado por ggplot.
+```{r}
+# sin input toma objeto ggplot mas reciente
+#plotly::ggplotly()
+plot_gap_plotly <- plotly::ggplotly(plot_gapminder)
+```
+
+
+
+### Leaflet
+Interesado en mapas? Es la herramienta que necesitas.
+```{r}
+poli <- leaflet() %>% 
+  addTiles() %>%
+  leaflet::addCircleMarkers(lng = -78.4887, lat = -0.2102)
+```
+
+
+
+
+
+
+
+
+
+
+
