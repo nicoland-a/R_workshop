@@ -1855,7 +1855,7 @@ duplica()</code></pre>
 duplica_2(5)</code></pre>
 <pre><code>## [1] 10</code></pre>
 <pre class="r"><code>#Al tener una funcion en la cual el codigo es corto pueden tener el codigo a continuacion
-#del input sin necesidad de usar las {} (IMPORTANTE Utilizarlo sin asignacion)
+#del input sin necesidad de usar las {} 
 duplica_3 &lt;- function(a) a*2   
 duplica_3(3)</code></pre>
 <pre><code>## [1] 6</code></pre>
@@ -1915,24 +1915,9 @@ y pegado al inicio de tus scripts de <code>r</code>.</p>
 }</code></pre>
 <pre><code>## Loading required package: pacman</code></pre>
 <pre class="r"><code>#carga los paquetes que quieras agregándolos como argumentos de la función p_load
-pacman::p_load(tidyr, dplyr, purrr, plm, openxlsx, readxl, ggplot2, plotly, shiny)</code></pre>
-<pre><code>## also installing the dependency &#39;lmtest&#39;</code></pre>
-<pre><code>## 
-##   There is a binary version available but the source version is later:
-##        binary source needs_compilation
-## lmtest 0.9-39 0.9-40              TRUE
-## 
-## 
-## The downloaded binary packages are in
-##  /var/folders/ny/79t7nxwn1y5ddtw0mwk4dt9m0000gn/T//RtmpWB4QbM/downloaded_packages</code></pre>
-<pre><code>## installing the source package &#39;lmtest&#39;</code></pre>
-<pre><code>## Warning in utils::install.packages(package, ...): installation of package
-## &#39;lmtest&#39; had non-zero exit status</code></pre>
-<pre><code>## 
-## plm installed</code></pre>
-<pre><code>## Warning in pacman::p_load(tidyr, dplyr, purrr, plm, openxlsx, readxl, ggplot2, : Failed to install/load:
-## plm</code></pre>
-<pre class="r"><code>#Libreria no instalada
+pacman::p_load(tidyr, dplyr, purrr, plm, openxlsx, readxl, ggplot2, plotly, shiny)
+
+#Libreria no instalada
 library(mekko)
 require(mekko)
 #solucion para instalar y cargar una libreria con PACMAN

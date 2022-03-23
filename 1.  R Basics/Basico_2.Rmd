@@ -2,10 +2,13 @@
 title: 'Clase 1: R Básico II'
 author: "Daniel Nicola"
 output:
+  html_document:
+    toc: yes
+    df_print: paged
   html_notebook:
     toc: yes
     toc_float: yes
-editor_options: 
+editor_options:
   chunk_output_type: inline
 ---
 
@@ -142,7 +145,7 @@ duplica_2 <- function(a){
 duplica_2(5)
 
 #Al tener una funcion en la cual el codigo es corto pueden tener el codigo a continuacion
-#del input sin necesidad de usar las {} (IMPORTANTE Utilizarlo sin asignacion)
+#del input sin necesidad de usar las {} 
 duplica_3 <- function(a) a*2   
 duplica_3(3)
 
