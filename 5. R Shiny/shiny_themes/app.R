@@ -4,11 +4,11 @@ if (!require(pacman)) {
 }
 pacman::p_load(shiny, shinyjs, shinycssloaders, shinythemes, DT, plotly, lubridate,
                glue, tidyr, tidyverse, data.table, magrittr, dplyr, purrr, openxlsx, readxl, 
-               zoo, aweek, stringr, shinydashboard, ggplot2, shinyWidgets)
+               zoo, aweek, stringr, shinydashboard, ggplot2, shinyWidgets, gapminder)
 
 #Data to be used in example:
 Dashboard_data <- iris  
-
+Gap_data <- gapminder
 
 #User interface. FluidPage example
 ui <- {fluidPage(
@@ -39,15 +39,20 @@ ui <- {fluidPage(
                ),
                fluidRow(
                  column(6,
-                        h2("FluidRow-column 1 width=6")),
-                 column(4,
-                        h2("FluidRow-column 2 width=4")),
+                        h2("FluidRow-column 1 width=6 FluidRow-column 1 width=6 "),
+                        tableOutput("Table_1")
+                        ),
+                 column(1,
+                        h2("FluidRow-column 2 width=1")),
                  column(2,
-                        h2("FluidRow-column 3 width=2"))
+                        h2("FluidRow-column 3 width=2")),
+                 column(3)
                ),
                
                fluidRow(
-                 p("Yet another fluidrow...", align="center") 
+                 p("Yet another fluidrow...", align="center"),
+                 textInput("Input_1", "Escribe el continente: "),
+                 plotlyOutput("Plot_Gap")
                )
       )}
     , tabPanel("Tab Panel 2",
@@ -83,9 +88,25 @@ server <- function(input, output, session) {
       layout(paper_bgcolor='rgb(255, 255, 255)')
   })
   
+  output$Table_1 <- renderTable({
+    
+    head(iris)
+  })
+  output$Plot_Gap <- renderPlotly({
+    plot_gapminder <- gapminder %>%
+      filter(continent== input$Input_1) %>%
+      ggplot(aes(year, lifeExp, color = country, size = gdpPercap)) +
+      geom_point() + 
+      labs(title = paste0("Grafico de ", input$Input_1)) +
+      xlab("Año") +
+      ylab("Esperanza de Vida") 
+    a <- ggplotly(plot_gapminder)
+    
+  })
+  
   
 }
 
 # Run the application
 app <- shinyApp(ui = ui, server = server)
-#runApp(app, launch.browser = T)
+#runApp(app, launch.browser = F)
