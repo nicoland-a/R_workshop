@@ -156,12 +156,25 @@ plot_gap_plotly <- plotly::ggplotly(plot_gapminder)
 ### Leaflet
 Interesado en mapas? Es la herramienta que necesitas.
 ```{r}
+library(leaflet)
 poli <- leaflet() %>% 
   addTiles() %>%
   leaflet::addCircleMarkers(lng = -78.4887, lat = -0.2102)
 ```
 
+### Patchwork
+Te permite combinar plots de manera muy sencilla.
+```{r}
+#Combinando los plot que creamos anteriormente
+library(patchwork)
+#Ejemplo dos plots en una fila
+bar_plot + box_plot
 
+#Ejemplo 3 plots en una fila y 2 en una segunda fila
+(bar_plot | histog_plot | box_plot) /
+  (plot_gapminder_line | violin_plot)
+
+```
 
 
 
