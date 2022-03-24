@@ -1,4 +1,153 @@
 ---
 title: "Mi Ejemplo de RMarkdown"
-output: html_document
+author: "Daniel Nicola"
+date: "`r Sys.Date()`"
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    theme: cosmo
+runtime: shiny
+params:
+  cont: "Asia"
+  year_st: 1950
+  year_end: 1990
+  year_set: 1997
 ---
+<style>
+#TOC {
+  color: #708090;
+  font-family: Calibri;
+  font-size: 16px;
+  border-color: #708090;
+}
+h1.title {
+  color: #F08080;
+  background-color: #F5F5F5;
+  opacity: 0.6;
+  font-family: Calibri;
+  font-size: 20px;
+}
+h4.author {
+  color: #708090;
+  font-family: Calibri;
+  background-color: #F5F5F5;
+}
+h4.date {
+  color: #708090; 
+  font-family: Calibri;
+  background-color: #F5F5F5;
+}
+body {
+  color: #708090;
+  font-family: Calibri;
+  background-color: #F5F5F5;
+}
+pre {
+  color: #708090;
+  background-color: #F8F8FF;
+}
+</style>
+# Reporte para `r params$cont`
+# Tema 1
+## Tema 2
+
+
+###### Tema 6
+
+## Cambios en el Texto
+Esto es un texto normal. 
+
+Puedes agregar código de `r` en líneas de texto `r 2+2`. Puedes agregar *cursiva* o **negrilla**. También puedes agregar un link <http://rmarkdown.rstudio.com> o puedes agregar [Otro link a lo mismo](http://rmarkdown.rstudio.com). Pueden tener superíndices^2^, ~~texto tachado~~. Una ecuación: $x > y$.
+
+
+- Item 1
+- Item 2
+  - Item 2.1
+  
+Lista Numerada
+
+1. Item 1
+2. Item 2
+
+## Opciones en los chunks
+
+```{r configuracion, include = FALSE}
+#Este código corre pero ni el código ni los resultados están en el output
+knitr::opts_chunk$set()
+```
+
+```{r, include=FALSE}
+library(gapminder)
+library(tidyverse)
+
+```
+
+```{r echo_F, echo = FALSE}
+library(ggplot2)
+ggplot(mtcars, aes(mpg, am)) +
+  geom_point()
+```
+
+```{r eval_F, eval=FALSE}
+plot(pressure)
+
+```
+
+
+```{r collapse_T, collapse=TRUE}
+b <- 5
+b
+```
+
+## Utilizando parámetros
+```{r plot, echo=FALSE}
+plot_gapminder <- gapminder %>%
+  filter(continent== params$cont,
+         year > params$year_st,
+         year < params$year_end) %>%
+  ggplot(aes(year, lifeExp, color = country, size = gdpPercap)) +
+  geom_point() + 
+  labs(title = paste0("Grafico de ", params$cont)) +
+  xlab("Año") +
+  ylab("Esperanza de Vida") #+
+  #theme(legend.position = "none")
+plot_gapminder
+```
+
+```{r resumen_valores, include=FALSE}
+resumen <- gapminder %>%
+  filter(continent== params$cont,
+         year==params$year_set) %>%
+  group_by(continent) %>%
+  summarise(pop=sum(pop))
+```
+
+Con los parámetros elegidos, `r params$cont` tiene una población de `r resumen$pop` en el año `r params$year_set`.
+
+
+```{python}
+a = 4
+a
+```
+
+```{r shiny}
+numericInput("year", "Seleccionar año: ", 1952)
+renderTable(head(gapminder %>% filter(year==input$year)))
+```
+
+
+
+```{r}
+iris_1 <- iris
+iris_2 <- iris
+iris_3 <- rbind(iris_1, iris_2)
+list_iris <- list(iris_1, iris_2, iris_3)
+
+df <- list_iris[[1]]
+for (i in length(list_iris)) {
+  if(i>1){
+    
+  }
+}
+```
