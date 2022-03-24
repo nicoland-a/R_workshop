@@ -12,6 +12,7 @@ El [tidyverse](https://www.tidyverse.org) contiene tambien el paquete `ggplot2` 
 ### Un primer plot
 ```{r}
 library(ggplot2)
+library(tidyverse)
 #utilizando el dataframe mtcars y geom_point()
 ggplot(mtcars, aes(cyl, mpg)) +
   geom_point()
@@ -110,7 +111,7 @@ violin_plot <- iris %>%
 
 #bar plot
 bar_plot <- mtcars %>%
-  ggplot(aes(cyl, fill = am)) +
+  ggplot(aes(factor(cyl), fill = am)) +
   geom_bar()
 ```
 
@@ -144,6 +145,7 @@ facet_plot <- gapminder |>
 ### Plotly
 Libreria que permite crear visualizaciones como .html. Puedes convertir un ggplot a plotly con una funcion : `plotly::ggplotly()` pasando como argumento el objeto creado por ggplot.
 ```{r}
+library(plotly)
 # sin input toma objeto ggplot mas reciente
 #plotly::ggplotly()
 plot_gap_plotly <- plotly::ggplotly(plot_gapminder)
