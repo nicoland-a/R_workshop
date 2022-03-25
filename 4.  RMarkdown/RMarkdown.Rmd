@@ -60,6 +60,11 @@ Esto es un texto normal.
 
 Puedes agregar código de `r` en líneas de texto `r 2+2`. Puedes agregar *cursiva* o **negrilla**. También puedes agregar un link <http://rmarkdown.rstudio.com> o puedes agregar [Otro link a lo mismo](http://rmarkdown.rstudio.com). Pueden tener superíndices^2^, ~~texto tachado~~. Una ecuación: $x > y$.
 
+Una imagen, similar a un link pero con ! antes de los corchetes de caption. ![Imagen que cargamos](nicola_logo1.png). 
+
+*Corregido de la clase en vivo, la imagen debe estar en el mismo directorio del RMarkdown*
+
+
 
 - Item 1
 - Item 2
@@ -125,29 +130,17 @@ resumen <- gapminder %>%
 
 Con los parámetros elegidos, `r params$cont` tiene una población de `r resumen$pop` en el año `r params$year_set`.
 
-
+## Un chunk con código de python
 ```{python}
 a = 4
 a
 ```
 
+## Contenido interactivo con Shiny
+Agregar "runtime: shiny" a YAML (Línea 10 de este documento)
 ```{r shiny}
 numericInput("year", "Seleccionar año: ", 1952)
 renderTable(head(gapminder %>% filter(year==input$year)))
 ```
 
 
-
-```{r}
-iris_1 <- iris
-iris_2 <- iris
-iris_3 <- rbind(iris_1, iris_2)
-list_iris <- list(iris_1, iris_2, iris_3)
-
-df <- list_iris[[1]]
-for (i in length(list_iris)) {
-  if(i>1){
-    
-  }
-}
-```
