@@ -14,6 +14,6 @@ Los temas cubiertos en el curso empiezan desde la descarga e instalación de R y
 - Series Temporales
 
 
-*Links útiles para Users de python y stata: 
+*Links útiles para Users de python y stata:* 
 - [python-to-R](https://www.mit.edu/~amidi/teaching/data-science-tools/conversion-guide/r-python-data-manipulation/) 
-- [stata-cheatsheet](https://jmxsy2016.github.io/Data-Science-and-Economics/计量经济学与Stata/stata2r.pdf)*
+- [stata-cheatsheet](https://jmxsy2016.github.io/Data-Science-and-Economics/计量经济学与Stata/stata2r.pdf)
