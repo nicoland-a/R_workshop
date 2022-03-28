@@ -1,0 +1,323 @@
+---
+title: 'Clase 6: Regresión'
+author: "Daniel Nicola"
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+---
+
+*Nota: Al cargar la librería `MASS`, se carga una función `select` que enmascara al `select` de `dplyr`.
+
+```{r , include=FALSE}
+library(dplyr)
+library(MASS)
+
+#iris |> select(Species)
+#iris |> dplyr::select(Species)
+```
+
+### Librerías 
+```{r, include=FALSE}
+if (!require(pacman)) {
+  install.packages("pacman")
+  require(pacman)
+}
+pacman::p_load(tidyverse, AER, lmtest, stargazer, plm,
+               ggiraph, broom, ggiraphExtra, yardstick, moonBook, TH.data)
+```
+
+### Regresión Lineal Simple
+
+#### Un ejemplo inicial...
+
+```{r}
+#de Econometrics with R
+STR <- c(15, 17, 19, 20, 22, 23.5, 25)
+Score <- c(680, 640, 670, 660, 630, 660, 635)
+df <- data.frame(STR, Score)
+
+plot_init <- df %>%
+  ggplot(aes(STR, Score)) +
+  geom_point() +
+  geom_abline(intercept = 713, slope = -3, color = "red")
+
+```
+
+
+### Datos para nuestro primer modelo
+Compara los coeficientes que se obtinene al utilizar `lm()` para crear un modelo y los coeficientes calculados.
+$Y = b_0 + b_1*X$
+```{r}
+data("CASchools")
+# Variables extras. Ratio entre Profesores y alumnos. Score medio de read
+# y math
+CASchools <- CASchools %>%
+  mutate(REP = students/teachers,
+         score = (read + math)/2)
+#Plot de las variables
+CASchools %>%
+  ggplot(aes(score, REP)) +
+  geom_point()
+#Correlacion
+Correlacion_Rat_Score <- cor(CASchools$REP, CASchools$score)
+
+#Estimacion de coeficientes 
+b_1 <- sum((CASchools$REP-mean(CASchools$REP))*(CASchools$score-mean(CASchools$score))) /
+             sum((CASchools$REP-mean(CASchools$REP))^2)
+b_1
+b_0 <- mean(CASchools$score) -b_1*mean(CASchools$REP)
+b_0
+
+```
+### Modelo para un Regresión usando `lm()`
+El modelo es creado con la función `lm()`, especificando (por lo menos) la fórmula y los datos a usarse.
+```{r}
+#modelo con lm
+model_1 <- lm(score ~ REP, data = CASchools)
+sum_model_1 <- summary(model_1)
+```
+
+```{r}
+#Recordatorio de cálculo de R^2
+Sum_Res_Sq <- sum(sum_model_1$residuals^2)
+Sum_Tot <- sum((CASchools$score-mean(CASchools$score))^2)
+R_sq <- 1-Sum_Res_Sq/Sum_Tot
+```
+Modelo sin término constante:
+```{r}
+#Sin término constante: Añadir -1 o +0 a la fórmula del modelo 
+model_1_b <- lm(score ~ REP + 0, data = CASchools)
+#summary(model_1_b)
+```
+
+
+#### Test de Coeficientes (`lmtest`)
+Intervalos de Confianza:
+```{r}
+confint(model_1)
+```
+Varianza-Covarianza:
+```{r}
+vconv <- vcovHC(model_1, type = "HC1")
+```
+
+Test de coeficientes:
+```{r}
+coeftest(model_1, vcov. = vconv)
+```
+
+### Modelo con regresores múltiples
+```{r}
+#Anadir a la fórmula, sumando variable a variable
+model_2 <- lm(score ~ REP + english, data = CASchools)
+#summary(model_2)
+```
+### Regresión Stepwise (`MASS`)
+```{r}
+full_model <- lm(Fertility ~ ., data=swiss)
+#summary(full_model)
+stepwise_model <- stepAIC(full_model, direction = "both", trace = FALSE)
+#summary(stepwise_model)
+```
+
+
+
+### Modelos no lineales
+```{r}
+model_nolin_0 <- lm(score ~ income, data = CASchools)
+#summary(model_nolin_0)
+plot_nolin_1 <- ggplot (CASchools, aes(income, score)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+```{r}
+#Modelo con componente cuadrática
+model_cuad <- lm(score ~ income + I(income^2), data = CASchools)
+#summary(model_cuad)
+```
+
+### Comparación de Modelos (`stargazer`)
+```{r}
+#Vamos a construir varios modelos, mezclando las fórmulas vistas en líneas anteriores
+model_comp_1 <- lm(score ~ REP, data = CASchools)
+model_comp_2 <- lm(score ~ REP + computer + lunch + I(income^2), data = CASchools)
+model_comp_3 <- lm(score ~ log(income) + REP + income + I(income^2) +I(income^3) , data = CASchools)
+model_comp_4 <- lm(score ~ REP*income + lunch:income, data = CASchools)
+model_comp_5 <- lm(score ~ calworks*lunch + computer + expenditure + income + english, data = CASchools)
+
+summary_models <- stargazer(model_comp_1, model_comp_2, model_comp_3, model_comp_4, model_comp_5, type = "text")
+
+```
+
+
+### Regresión Logística
+
+```{r}
+#Datos para el ejemplo, de la misma lib. AER
+data(HMDA)
+#modelo_lin <- lm(deny ~ pirat, data = HMDA)
+
+#Modelo para variable dependiente binaria con glm()
+model_logit <- glm(deny ~ pirat, family = binomial(link = "logit"),
+                   data = HMDA) 
+model_probit <- glm(deny ~ pirat, family = binomial(link = "probit"),
+                   data = HMDA) 
+
+model_logit_2 <- glm(deny ~ pirat + hirat + chist + single, family = binomial(link = "logit"),
+                   data = HMDA)
+model_probit_2 <- glm(deny ~ pirat + hschool + unemp + selfemp, family = binomial(link = "probit"),
+                   data = HMDA) 
+summary_logit_probit <- stargazer(model_logit, model_probit, model_logit_2, model_probit_2, type = "text")
+
+```
+
+### Predecir nuevas observaciones
+Con cualquier modelo se puede utilizar `predict()` para obtener predicciones para nuevas observaciones.
+```{r}
+#Predecir en el mismo dataset (para este ejemplo)
+pred_lin <- predict(model_comp_2, CASchools)
+
+#Con modelos logit/probit
+pred_log <- predict(model_logit, HMDA, type = "response")
+```
+
+
+#### Confusion matrix (`yardstick`)
+```{r}
+#Compara valores verdaderos y sus predcciones
+confusion_mat <- conf_mat(table(as.numeric(HMDA$deny)-1, round(pred_log)))
+#Representación gráfica de confusion matrix
+tile_plot_conf <-autoplot(confusion_mat)
+```
+
+### Panel Data (`plm`)
+```{r}
+#datos a utilizarse para el ejemplo: Fatalities
+Fatalities <- Fatalities %>%
+  mutate(tasa_de_fatalidades = (fatal/pop)*10000)
+
+#Modelos para comparar tiempos en la base de datos
+Fat_1982 <- Fatalities %>%
+  filter(year=="1982")
+Fat_1988 <- Fatalities %>%
+  filter(year=="1988")
+
+mod_Fat_1982 <- lm(tasa_de_fatalidades ~ beertax, data = Fat_1982)
+mod_Fat_1988 <- lm(tasa_de_fatalidades ~ beertax, data = Fat_1988)
+
+graph_Fat <- function(data){
+  ggplot(data, aes(beertax, tasa_de_fatalidades)) +
+    geom_point() +
+    geom_smooth(method = "lm")
+}
+graph_1982 <- graph_Fat(Fat_1982)
+graph_1988 <- graph_Fat(Fat_1988)
+
+```
+
+```{r}
+#diferencias entre 1988 y 1982
+diff_Tasa_Fat <- Fat_1988$tasa_de_fatalidades - Fat_1982$tasa_de_fatalidades
+diff_beertax <- Fat_1988$beertax - Fat_1982$beertax
+
+mod_diff_1982_1988 <- lm(diff_Tasa_Fat ~ diff_beertax)
+```
+
+
+```{r}
+#Modelo que toma a estado como variable (y sin constante)
+mod_tasa_Fat_lm <- lm(tasa_de_fatalidades ~ beertax + state -1, data=Fatalities)
+#mod_tasa_Fat_lm
+
+#Modelos con plm
+mod_tasa_Fat_plm <- plm(tasa_de_fatalidades ~ beertax,
+                        data = Fatalities,
+                        index = c("state", "year"),
+                        model = "within")
+#mod_tasa_Fat_plm
+
+mod_tasa_Fat_plm_two_ways <- plm(tasa_de_fatalidades ~ beertax,
+                        data = Fatalities,
+                        index = c("state", "year"),
+                        model = "within",
+                        effect = "twoways")
+#mod_tasa_Fat_plm_two_ways
+```
+#### Comparación de Modelos
+```{r}
+mod_comp_plm_1 <- lm(lm(tasa_de_fatalidades ~ beertax , data=Fatalities))
+mod_comp_plm_2 <- plm(tasa_de_fatalidades ~ beertax + state, data = Fatalities)
+mod_comp_plm_3 <- plm(tasa_de_fatalidades ~ beertax + state + year,
+                      data = Fatalities,
+                        index = c("state", "year"),
+                        model = "within",
+                        effect = "twoways")
+mod_comp_plm_4 <- plm(tasa_de_fatalidades ~ beertax + state + year + miles + unemp,
+                      data = Fatalities,
+                        index = c("state", "year"),
+                        model = "within",
+                        effect = "twoways")
+mod_comp_plm_5 <- plm(tasa_de_fatalidades ~ beertax + state + year + miles + unemp
+                      + jail + income,
+                      data = Fatalities,
+                        index = c("state", "year"),
+                        model = "within",
+                        effect = "twoways")
+sum_plm <- stargazer(mod_comp_plm_1, mod_comp_plm_2,mod_comp_plm_3, mod_comp_plm_4,
+                     mod_comp_plm_5, type = "text")
+
+```
+
+Más información [Panel Data Econometrics in R: The plm Package](https://www.wu.ac.at/fileadmin/wu/d/i/iqv/Gstach/Artikel/Croissant__2008_.pdf)
+
+
+### Visualizaciones (`ggiraph`, `ggiraphExtra`)
+```{r}
+fit_0 <- lm(NTAV ~ age, data = radial)
+#coódigo ggplot
+ggplot_fit_0 <- radial %>%
+  ggplot(aes(age, NTAV)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+#código ggiraph
+ggpred_plot <- ggPredict(fit_0, se = TRUE, interactive = TRUE)
+```
+
+#### Ejemplo con interacciones
+```{r}
+fit_comp <- lm(NTAV ~ age*weight*HBP, data=radial)
+#ejemplo de ggplot
+#ggplot(radial, aes(y=NTAV,x=age,color=weight)) +
+#geom_point() +
+#stat_smooth(method="lm",se=FALSE)
+#ggpredict
+ggpred_plot_comp <- ggPredict(fit_comp, interactive = TRUE)
+```
+
+#### Ejemplo para Regresión Logística
+```{r}
+fit_log <- glm(cens ~pnodes*horTh, data = GBSG2, family = binomial())
+plot_fit_log <- ggPredict(fit_log, interactive = FALSE, se = TRUE)
+plot_fit_log
+```
+
+
+```{r}
+
+fit_log_2 <- glm(cens ~pnodes*age, data = GBSG2, family = binomial())
+plot_fit_log_2 <- ggPredict(fit_log_2, interactive = TRUE)
+plot_fit_log_2
+```
+
+
+
+
+
+
+
+
+
+
+
