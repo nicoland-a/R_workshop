@@ -1,0 +1,206 @@
+---
+title: 'Clase 7: Series Temporales'
+author: "Daniel Nicola"
+output:
+  html_notebook:
+    toc: yes
+    toc_float: yes
+---
+### Librerías 
+```{r, include=FALSE}
+if (!require(pacman)) {
+  install.packages("pacman")
+  require(pacman)
+}
+pacman::p_load(forecast, ggplot2, fpp2)
+```
+
+### Intro a Series Temporales en `r`
+```{r}
+#Crear una serie temp
+serie_1 <- ts(1:15, start = 2008, end = 2022, frequency = 1)
+
+#Datos en R para plots
+plot_gold <- autoplot(gold)
+plot_gasoline <- autoplot(gasoline)
+
+#Revisar la frecuencia de la Serie Temp
+freq_gold <- frequency(gold)
+freq_gas <- frequency(gasoline)
+
+##Gráfico ggseasonplot
+dat_A10 <- a10
+data_A10_plot <- ggseasonplot(dat_A10)
+#coordenadas polares
+data_A10_polar <- ggseasonplot(dat_A10, polar = TRUE)
+
+#"filtrar" uns ts
+a10_1991_1994 <- window(dat_A10, end = 1994)
+
+```
+
+
+### Tendencia, Estacionalidad, Ciclicidad
+```{r}
+#plots para observar tend, estacionalidad, ciclicidad...
+aut <- autoplot(oil)
+lagplot <- gglagplot(oil)
+Acf_plot <- ggAcf(oil)
+
+
+#WHITE NOISE: dastos aleatorios
+white_noise <- ts(matrix(rnorm(192), 96, 2), start = c(1990, 1), frequency = 12)
+wn_plot <- autoplot(white_noise)
+wn_plot_2 <- autoplot(white_noise, facets = TRUE)
+
+#Comprobar que una ts es "white noise"
+acf_plot_wn <- ggAcf(white_noise)
+
+#Test 
+test_box <- Box.test(white_noise[,1], type = "Ljung")
+```
+
+
+### Forecasts: `naive()` y `snaive()`
+```{r}
+pred_wn <- naive(white_noise[,1])
+pred_naive_s <- snaive(ausbeer, h = 12)
+plot_aus <- autoplot(ausbeer)
+
+summary_pred_naive_s <- summary(pred_naive_s)
+```
+
+### Residuos
+```{r}
+#Ejemplo utilizando %>%
+residuals_mod_beer <- ausbeer %>%
+  snaive(h = 12) %>%
+  checkresiduals()
+```
+
+
+### Train - Test sets & Validación cruzada
+```{r}
+#ejemplo con ts gold
+train_set <- subset(gold, end = 1000)
+
+naive_gold <- naive(train_set, h = 108)
+
+#evaluar modelo
+accuracy_naive <- accuracy(naive_gold, gold)
+```
+
+
+#### Validación Cruzada
+```{r}
+valid_cruzada <- tsCV(train_set, forecastfunction = naive, h = 10)
+```
+
+
+### Suavizado
+
+#### Suavizado Exponencial Simple
+```{r}
+#ses suavizado exponencial simple
+beer_ses <- ses(ausbeer, h = 10)
+beer_naive <- naive(ausbeer, h = 10)
+ac_1 <- accuracy(beer_ses)
+ac_2 <- accuracy(beer_naive)
+```
+
+#### Sauvizado Exponencial con Tendencia 
+```{r}
+#holt
+air_holt <- holt(AirPassengers, h = 36)
+sum_holt <- summary(air_holt)
+plot_air_holt <- autoplot(air_holt)
+```
+
+
+#### Sauvizado Exponencial con Tendencia y Estacionalidad
+```{r}
+#holt winters
+air_holt_winter_add <- hw(AirPassengers, h = 36, seasonal = "additive")
+air_holt_winter_mult <- hw(AirPassengers, h = 36, seasonal = "multiplicative")
+
+plot_add <- autoplot(air_holt_winter_add)
+plot_mult <- autoplot(air_holt_winter_mult)
+
+#checkresiduals(air_holt_winter_add)
+```
+### Modelos ETS
+```{r}
+#ets con modelo "ZZZ" (default) elige modelo y procesos automáticamente
+mod_ets <- ets(AirPassengers)
+plot_ets <- autoplot(forecast(mod_ets))
+
+#datos en el que ets falla
+mod_lynx <- ets(lynx)
+plot_lynx <- mod_lynx %>%
+  forecast(h = 10) %>%
+  autoplot()
+```
+
+
+### Modelos ARIMA
+```{r}
+#autoarima elige automáticamente el modelo
+arima_1 <- auto.arima(austa)
+#modelo creado
+arima_manual <- Arima(austa, order = c(2, 1, 2), include.constant = TRUE) 
+sum_mod <- summary(arima_manual)
+```
+
+
+#### Modelos ARIMA con Estacionalidad
+```{r}
+arima_air <- auto.arima(AirPassengers)
+sum_arima_est <- summary(arima_air)
+
+plot_arima_est <- autoplot(forecast(arima_air))
+```
+
+### Otros Modelos
+
+#### Regresión Dinámica
+```{r}
+plot_advert <- autoplot(advert, facets = TRUE)
+reg_din <- auto.arima(advert[, "sales"],
+                       xreg = advert[, "advert"],
+                       stationary =TRUE)
+sum_reg_din <- summary(reg_din)
+
+```
+
+
+#### Regresión Dinámica Armónica
+```{r}
+harm_reg <- fourier(gasoline, K = 5)
+reg_din_harm <- auto.arima(gasoline, 
+                           xreg = harm_reg, 
+                           seasonal = FALSE)
+
+sum_harm <- summary(reg_din_harm)
+plot_harm <- autoplot(forecast(reg_din_harm, xreg = harm_reg))
+```
+
+
+#### TBATS
+```{r}
+plot_gas <- autoplot(gas)
+mod_gas <- tbats(gas)
+mod_forecast_plot <- gas |>
+  tbats() %>%
+  forecast() %>%
+  autoplot()
+
+```
+
+
+
+
+
+
+
+
+
