@@ -62,7 +62,7 @@ Puedes agregar código de `r` en líneas de texto `r 2+2`. Puedes agregar *cursi
 
 Una imagen, similar a un link pero con ! antes de los corchetes de caption. ![Imagen que cargamos](nicola_logo1.png). 
 
-*Corregido de la clase en vivo, la imagen debe estar en el mismo directorio del RMarkdown*
+*Corregido de la clase en vivo, la imagen debía estar en el mismo directorio del RMarkdown*
 
 
 
