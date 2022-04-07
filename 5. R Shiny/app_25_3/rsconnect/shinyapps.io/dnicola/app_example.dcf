@@ -1,0 +1,13 @@
+name: app_example
+title: app_example
+username:
+account: dnicola
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6036498
+bundleId: 5773675
+url: https://dnicola.shinyapps.io/app_example/
+when: 1649325507.83132
+lastSyncTime: 1649325507.83134
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,10 +1,19 @@
 #CARGAR LIBRERIAS
-if (!require(pacman)) {
-  install.packages("pacman")
-  require(pacman)
-}
-pacman::p_load(shinydashboard, shiny, shinyjs, shinycssloaders, shinythemes, shinyWidgets,
-               gapminder, plotly, leaflet)
+##if (!require(pacman)) {
+  #install.packages("pacman")
+  #require(pacman)
+#}
+#pacman::p_load(shinydashboard, shiny, shinyjs, shinycssloaders, shinythemes, shinyWidgets,
+ #              gapminder, plotly, leaflet)
+library(shinydashboard)
+library(shiny)
+library(shinyjs)
+library(shinycssloaders)
+library(shinythemes)
+library(shinyWidgets)
+library(gapminder)
+library(plotly)
+library(leaflet)
 
 
 ### Datos ####
